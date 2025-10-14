@@ -13,5 +13,7 @@
     "dhis": {
       "href": "*"
     }
-  }
+  },
+  "appType": "APP",
+  "pluginLaunchPath": "index.html"
 }
