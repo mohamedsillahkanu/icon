@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "name": "Test App",
-  "description": "Simple DHIS2 test app with tabs",
+  "name": "Test Dashboard Widget",
+  "description": "Dashboard widget with tabs",
   "launch_path": "index.html",
   "icons": {
     "48": "icon.png"
@@ -14,6 +14,5 @@
       "href": "*"
     }
   },
-  "appType": "APP",
-  "pluginLaunchPath": "index.html"
+  "appType": "DASHBOARD_WIDGET"
 }
