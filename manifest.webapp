@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "name": "Test App",
+  "description": "Simple DHIS2 test app with tabs",
+  "launch_path": "index.html",
+  "icons": {
+    "48": "icon.png"
+  },
+  "developer": {
+    "name": "Test Developer"
+  },
+  "activities": {
+    "dhis": {
+      "href": "*"
+    }
+  }
+}
