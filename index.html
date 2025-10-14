@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create App Icon</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #2c6693;
+        }
+        .controls {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            max-width: 500px;
+            width: 100%;
+        }
+        .control-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        input[type="color"] {
+            height: 50px;
+            cursor: pointer;
+        }
+        #canvas {
+            border: 3px solid #2c6693;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: white;
+        }
+        .button {
+            background: #2c6693;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #1f4a6a;
+        }
+        .preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .emoji-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .emoji-option {
+            font-size: 32px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .emoji-option:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Create Your App Icon</h1>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label>Background Color:</label>
+            <input type="color" id="bgColor" value="#2c6693">
+        </div>
+        
+        <div class="control-group">
+            <label>Icon Type:</label>
+            <select id="iconType" onchange="updateIconType()">
+                <option value="emoji">Emoji</option>
+                <option value="text">Text/Initials</option>
+                <option value="solid">Solid Color</option>
+            </select>
+        </div>
+        
+        <div class="control-group" id="emojiGroup">
+            <label>Choose an Emoji:</label>
+            <div class="emoji-picker">
+                <span class="emoji-option" onclick="setEmoji('🏥')">🏥</span>
+                <span class="emoji-option" onclick="setEmoji('📊')">📊</span>
+                <span class="emoji-option" onclick="setEmoji('📈')">📈</span>
+                <span class="emoji-option" onclick="setEmoji('💊')">💊</span>
+                <span class="emoji-option" onclick="setEmoji('🩺')">🩺</span>
+                <span class="emoji-option" onclick="setEmoji('📋')">📋</span>
+                <span class="emoji-option" onclick="setEmoji('⚕️')">⚕️</span>
+                <span class="emoji-option" onclick="setEmoji('🏨')">🏨</span>
+            </div>
+        </div>
+        
+        <div class="control-group" id="textGroup" style="display: none;">
+            <label>Text (1-3 characters):</label>
+            <input type="text" id="iconText" maxlength="3" placeholder="AB" oninput="drawIcon()">
+        </div>
+        
+        <button class="button" onclick="downloadIcon()">⬇️ Download icon.png</button>
+    </div>
+    
+    <div class="preview">
+        <canvas id="canvas" width="128" height="128"></canvas>
+        <p style="color: #666; margin-top: 10px;">Preview (128x128 pixels)</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let currentEmoji = '🏥';
+        let currentType = 'emoji';
+
+        function updateIconType() {
+            currentType = document.getElementById('iconType').value;
+            document.getElementById('emojiGroup').style.display = 
+                currentType === 'emoji' ? 'block' : 'none';
+            document.getElementById('textGroup').style.display = 
+                currentType === 'text' ? 'block' : 'none';
+            drawIcon();
+        }
+
+        function setEmoji(emoji) {
+            currentEmoji = emoji;
+            drawIcon();
+        }
+
+        function drawIcon() {
+            const bgColor = document.getElementById('bgColor').value;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 128, 128);
+            
+            // Draw background
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, 128, 128);
+            
+            // Draw content based on type
+            if (currentType === 'emoji') {
+                ctx.font = '64px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(currentEmoji, 64, 64);
+            } else if (currentType === 'text') {
+                const text = document.getElementById('iconText').value.toUpperCase() || 'APP';
+                ctx.font = 'bold 48px Arial';
+                ctx.fillStyle = 'white';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(text, 64, 64);
+            }
+            // If solid, just show the background color
+        }
+
+        function downloadIcon() {
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'icon.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        // Update when color changes
+        document.getElementById('bgColor').addEventListener('input', drawIcon);
+
+        // Initial draw
+        drawIcon();
+    </script>
+</body>
+</html>
