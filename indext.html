@@ -1,207 +1,491 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create App Icon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHIS 2 - Maintenance</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            padding: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .header-top {
+            padding: 20px 40px;
+            display: flex;
             align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1976d2;
+            font-size: 20px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-box {
+            background-color: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 16px;
+            border-radius: 4px;
+            color: white;
+            width: 300px;
+            font-size: 14px;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background-color: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-info:hover {
+            background-color: rgba(255,255,255,0.25);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background-color: #0d47a1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .header-bottom {
+            padding: 15px 40px;
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .breadcrumb {
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+        }
+
+        .breadcrumb span {
+            opacity: 0.7;
+        }
+
+        .content {
+            flex: 1;
             padding: 40px;
-            background: #f5f5f5;
-        }
-        h1 {
-            color: #2c6693;
-        }
-        .controls {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            max-width: 500px;
+            max-width: 1400px;
             width: 100%;
+            margin: 0 auto;
         }
-        .control-group {
+
+        .page-title {
+            font-size: 28px;
+            color: #1565c0;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 20px;
         }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
+
+        .section-title {
+            font-size: 20px;
+            color: #1976d2;
+            font-weight: 500;
         }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
         }
-        input[type="color"] {
-            height: 50px;
-            cursor: pointer;
-        }
-        #canvas {
-            border: 3px solid #2c6693;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+        .card {
             background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(25, 118, 210, 0.08);
+            padding: 24px;
+            transition: all 0.3s;
+            border: 1px solid #e3f2fd;
+            display: flex;
+            flex-direction: column;
         }
-        .button {
-            background: #2c6693;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
+
+        .card:hover {
+            box-shadow: 0 6px 16px rgba(25, 118, 210, 0.15);
+            transform: translateY(-4px);
+            border-color: #90caf9;
+        }
+
+        .card-title {
             font-size: 16px;
             font-weight: 600;
-            margin: 10px 5px;
-            transition: background 0.3s;
+            color: #1565c0;
+            margin-bottom: 12px;
         }
-        .button:hover {
-            background: #1f4a6a;
+
+        .card-description {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex: 1;
         }
-        .preview {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .emoji-picker {
+
+        .card-actions {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 12px;
+            justify-content: flex-end;
         }
-        .emoji-option {
-            font-size: 32px;
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #90caf9;
+            background: white;
+            border-radius: 4px;
             cursor: pointer;
-            padding: 10px;
-            border-radius: 8px;
-            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 20px;
+            font-weight: 300;
+            color: #1976d2;
         }
-        .emoji-option:hover {
-            background: #f0f0f0;
+
+        .btn-icon:hover {
+            background-color: #1976d2;
+            border-color: #1976d2;
+            color: white;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+            color: white;
+            padding: 30px 40px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .footer-right {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>🎨 Create Your App Icon</h1>
-    
-    <div class="controls">
-        <div class="control-group">
-            <label>Background Color:</label>
-            <input type="color" id="bgColor" value="#2c6693">
-        </div>
-        
-        <div class="control-group">
-            <label>Icon Type:</label>
-            <select id="iconType" onchange="updateIconType()">
-                <option value="emoji">Emoji</option>
-                <option value="text">Text/Initials</option>
-                <option value="solid">Solid Color</option>
-            </select>
-        </div>
-        
-        <div class="control-group" id="emojiGroup">
-            <label>Choose an Emoji:</label>
-            <div class="emoji-picker">
-                <span class="emoji-option" onclick="setEmoji('🏥')">🏥</span>
-                <span class="emoji-option" onclick="setEmoji('📊')">📊</span>
-                <span class="emoji-option" onclick="setEmoji('📈')">📈</span>
-                <span class="emoji-option" onclick="setEmoji('💊')">💊</span>
-                <span class="emoji-option" onclick="setEmoji('🩺')">🩺</span>
-                <span class="emoji-option" onclick="setEmoji('📋')">📋</span>
-                <span class="emoji-option" onclick="setEmoji('⚕️')">⚕️</span>
-                <span class="emoji-option" onclick="setEmoji('🏨')">🏨</span>
+    <div class="header">
+        <div class="header-top">
+            <div class="header-left">
+                <div class="logo-container">
+                    <div class="logo">D2</div>
+                    <span class="header-title">DHIS 2</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <input type="text" class="search-box" placeholder="Search applications...">
+                <div class="user-info">
+                    <div class="user-avatar">MK</div>
+                    <span class="user-name">Admin User</span>
+                </div>
             </div>
         </div>
-        
-        <div class="control-group" id="textGroup" style="display: none;">
-            <label>Text (1-4 characters):</label>
-            <input type="text" id="iconText" maxlength="4" placeholder="DHIS" oninput="drawIcon()">
+        <div class="header-bottom">
+            <div class="breadcrumb">
+                <span>Home</span> / <strong>Maintenance</strong>
+            </div>
         </div>
-        
-        <button class="button" onclick="downloadIcon()">⬇️ Download icon.png</button>
     </div>
-    
-    <div class="preview">
-        <canvas id="canvas" width="128" height="128"></canvas>
-        <p style="color: #666; margin-top: 10px;">Preview (128x128 pixels)</p>
+
+    <div class="content">
+        <h1 class="page-title">Maintenance</h1>
+        <p class="page-subtitle">Configure and manage system categories, data elements, and data sets</p>
+
+        <div class="section-header">
+            <h2 class="section-title">Category</h2>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-title">Category option</div>
+                <div class="card-description">Create, modify, view and delete category options. Category options are options within in category.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="Add">+</button>
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Category</div>
+                <div class="card-description">Create, modify, view and delete data element categories. Categories are used for disaggregation of data elements.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="Add">+</button>
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Category combination</div>
+                <div class="card-description">Create, modify, view and delete category combinations.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="Add">+</button>
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Category option combination</div>
+                <div class="card-description">View and edit category option combinations. Category option combinations are break-downs of category.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Category option group</div>
+                <div class="card-description">Create, modify, view and delete category option groups, which can be used to classify category options.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="Add">+</button>
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Category option group set</div>
+                <div class="card-description">Create, modify, view and delete category option group sets, which can be used for improved data analysis.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="Add">+</button>
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2 class="section-title">Data element</h2>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-title">Data element</div>
+                <div class="card-description">Create, modify, view and delete data elements. Data elements are phenomena for which will be captured and analyzed.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="Add">+</button>
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Data element group</div>
+                <div class="card-description">Create, modify, view and delete data element groups. Groups are used for improved analysis.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="Add">+</button>
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Data element group set</div>
+                <div class="card-description">Create, modify, view and delete data element group sets. Group sets are used for improved analysis.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="Add">+</button>
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2 class="section-title">Data set</h2>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-title">Data set</div>
+                <div class="card-description">Create, modify, view and delete data sets. Data sets are collections of data elements for data entry.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="Add">+</button>
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Data set notification</div>
+                <div class="card-description">Create, modify, view and delete data set notifications for automated alerts.</div>
+                <div class="card-actions">
+                    <button class="btn-icon" title="Add">+</button>
+                    <button class="btn-icon" title="List">☰</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="footer-title">DHIS 2 Information System</div>
+                <div class="footer-text">Version 2.40 | © 2025 DHIS2</div>
+            </div>
+            <div class="footer-right">
+                <a href="#" class="footer-link">Documentation</a>
+                <a href="#" class="footer-link">Support</a>
+                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+            </div>
+        </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        let currentEmoji = '🏥';
-        let currentType = 'emoji';
-
-        function updateIconType() {
-            currentType = document.getElementById('iconType').value;
-            document.getElementById('emojiGroup').style.display = 
-                currentType === 'emoji' ? 'block' : 'none';
-            document.getElementById('textGroup').style.display = 
-                currentType === 'text' ? 'block' : 'none';
-            drawIcon();
-        }
-
-        function setEmoji(emoji) {
-            currentEmoji = emoji;
-            drawIcon();
-        }
-
-        function drawIcon() {
-            const bgColor = document.getElementById('bgColor').value;
-            
-            // Clear canvas
-            ctx.clearRect(0, 0, 128, 128);
-            
-            // Draw background
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(0, 0, 128, 128);
-            
-            // Draw content based on type
-            if (currentType === 'emoji') {
-                ctx.font = '64px Arial';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(currentEmoji, 64, 64);
-            } else if (currentType === 'text') {
-                const text = document.getElementById('iconText').value.toUpperCase() || 'APP';
-                // Adjust font size based on text length for better fit
-                let fontSize;
-                if (text.length === 1) fontSize = 64;
-                else if (text.length === 2) fontSize = 52;
-                else if (text.length === 3) fontSize = 44;
-                else fontSize = 36; // 4 characters
-                
-                ctx.font = `bold ${fontSize}px Arial`;
-                ctx.fillStyle = 'white';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(text, 64, 64);
-            }
-            // If solid, just show the background color
-        }
-
-        function downloadIcon() {
-            canvas.toBlob(function(blob) {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'icon.png';
-                a.click();
-                URL.revokeObjectURL(url);
+        // Card button interactions
+        const buttons = document.querySelectorAll('.btn-icon');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const action = this.getAttribute('title');
+                console.log(`${action} button clicked`);
             });
-        }
+        });
 
-        // Update when color changes
-        document.getElementById('bgColor').addEventListener('input', drawIcon);
-
-        // Initial draw
-        drawIcon();
+        // Search functionality
+        const searchBox = document.querySelector('.search-box');
+        searchBox.addEventListener('input', function(e) {
+            console.log('Searching for:', e.target.value);
+        });
     </script>
 </body>
 </html>
