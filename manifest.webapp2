@@ -1,7 +1,7 @@
 {
   "version": "1.0.1",
-  "name": "Dashboard",
-  "description": "Dashboard",
+  "name": "HF",
+  "description": "Data Collection Forms",
   "launch_path": "index.html",
   "icons": {
     "48": "icon.png"
@@ -14,6 +14,9 @@
     "dhis": {
       "href": "*"
     }
-  },
-  "appType": "DASHBOARD_WIDGET"
-}
+  }
+  "appType": "APP",
+    "settings": {
+      "sortOrder": 1
+    }
+  }
