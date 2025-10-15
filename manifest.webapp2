@@ -14,9 +14,9 @@
     "dhis": {
       "href": "*"
     }
-  }
+  },
   "appType": "APP",
-    "settings": {
-      "sortOrder": 1
-    }
+  "settings": {
+    "sortOrder": 1
   }
+}
