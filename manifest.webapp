@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "HF1",
   "description": "Health facility data collection app",
   "launch_path": "index.html",
@@ -14,5 +14,6 @@
     "dhis": {
       "href": "*"
     }
-  }
+  },
+  "appType": "DASHBOARD_WIDGET"
 }
