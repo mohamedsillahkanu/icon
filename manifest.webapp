@@ -1,18 +1,18 @@
 {
   "version": "1.0.0",
-  "name": "Test Dashboard Widget",
-  "description": "Dashboard widget with tabs",
+  "name": "My App",
+  "description": "Health facility data collection app",
   "launch_path": "index.html",
   "icons": {
     "48": "icon.png"
   },
   "developer": {
-    "name": "Test Developer"
+    "name": "Mohamed Sillah Kanu",
+    "url": ""
   },
   "activities": {
     "dhis": {
       "href": "*"
     }
-  },
-  "appType": "DASHBOARD_WIDGET"
+  }
 }
